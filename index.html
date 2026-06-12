@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LabCalc — Free Error Propagation, Sig Fig &amp; Standard Deviation Calculators</title>
+<meta name="description" content="Free calculators for lab reports: propagate uncertainty through any calculation, count and round significant figures, and get mean ± standard error from raw data.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I propagate uncertainty when adding two measurements?",
+      "acceptedAnswer": { "@type": "Answer", "text": "For Q = a + b or Q = a − b, the uncertainties add in quadrature: δQ = √(δa² + δb²). Independent random errors partially cancel, so quadrature gives a more realistic uncertainty than simply adding δa + δb." }
+    },
+    {
+      "@type": "Question",
+      "name": "Are trailing zeros significant figures?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Trailing zeros after a decimal point are significant (1.200 has 4 sig figs). Trailing zeros in a whole number with no decimal point are ambiguous and conventionally treated as not significant (1200 has 2 sig figs). Use scientific notation to be explicit." }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I report standard deviation or standard error in a lab report?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Report the standard deviation to describe the spread of your individual measurements, and the standard error of the mean (SEM = s/√n) as the uncertainty on your best estimate. A result is usually quoted as mean ± SEM." }
+    }
+  ]
+}
+</script>
+<style>
+  :root {
+    --ink: #1a2332;
+    --ink-soft: #4b5768;
+    --bg: #f5f8fa;
+    --card: #ffffff;
+    --line: #dde5ec;
+    --accent: #0f766e;
+    --accent-dark: #0b5a54;
+    --accent-soft: #e6f4f2;
+    --warn: #b45309;
+    --err: #b91c1c;
+    --radius: 12px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 0 20px; }
+
+  header {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    position: sticky; top: 0; z-index: 10;
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 0; flex-wrap: wrap; gap: 10px;
+  }
+  .logo { font-weight: 800; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+  .nav-links a { color: var(--ink-soft); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+  .nav-links a:hover { color: var(--accent); }
+
+  .hero { text-align: center; padding: 56px 0 40px; }
+  .hero h1 { font-size: clamp(1.7rem, 4.5vw, 2.6rem); line-height: 1.2; margin-bottom: 14px; }
+  .hero p { color: var(--ink-soft); max-width: 640px; margin: 0 auto; font-size: 1.08rem; }
+
+  .tools { display: grid; gap: 24px; padding-bottom: 24px; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 26px;
+    scroll-margin-top: 80px;
+  }
+  .card h2 { font-size: 1.3rem; margin-bottom: 6px; }
+  .card .sub { color: var(--ink-soft); font-size: 0.95rem; margin-bottom: 18px; }
+
+  label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink-soft); margin-bottom: 4px; }
+  input[type="text"], input[type="number"], select, textarea {
+    width: 100%; padding: 10px 12px; font-size: 1rem;
+    border: 1px solid var(--line); border-radius: 8px;
+    background: #fbfdfe; color: var(--ink); font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+  textarea { resize: vertical; min-height: 96px; }
+
+  .row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 14px; }
+  .field { min-width: 0; }
+
+  button.calc {
+    background: var(--accent); color: #fff; border: none; cursor: pointer;
+    padding: 11px 22px; font-size: 1rem; font-weight: 600;
+    border-radius: 8px; transition: background 0.15s;
+  }
+  button.calc:hover { background: var(--accent-dark); }
+
+  .result {
+    margin-top: 16px; padding: 14px 16px;
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0; display: none;
+  }
+  .result.show { display: block; }
+  .result .big { font-size: 1.25rem; font-weight: 700; }
+  .result .note { font-size: 0.85rem; color: var(--ink-soft); margin-top: 4px; }
+  .result.error { background: #fdf0ef; border-left-color: var(--err); color: var(--err); }
+
+  .formulas { padding: 8px 0 24px; }
+  .formulas h2, .faq h2, .toolkit h2 { font-size: 1.5rem; margin-bottom: 16px; }
+  .formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+  .formula {
+    background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px;
+  }
+  .formula h3 { font-size: 1rem; margin-bottom: 6px; }
+  .formula code {
+    display: block; background: var(--bg); padding: 8px 10px; border-radius: 6px;
+    font-size: 0.95rem; margin: 8px 0; overflow-x: auto;
+  }
+  .formula p { font-size: 0.88rem; color: var(--ink-soft); }
+
+  .toolkit {
+    background: var(--ink); color: #eef2f6; border-radius: var(--radius);
+    padding: 36px 30px; margin: 32px 0; scroll-margin-top: 80px;
+  }
+  .toolkit h2 { color: #fff; }
+  .toolkit p { color: #c4cdd8; max-width: 620px; }
+  .toolkit ul { margin: 16px 0 22px 20px; color: #dde5ec; }
+  .toolkit li { margin-bottom: 6px; }
+  .gumroad-button {
+    display: inline-block; background: #14b8a6; color: #06251f !important;
+    font-weight: 700; padding: 13px 26px; border-radius: 8px;
+    text-decoration: none; font-size: 1.05rem;
+  }
+  .gumroad-button:hover { background: #2dd4bf; }
+  .toolkit .tiny { font-size: 0.8rem; color: #8b96a5; margin-top: 12px; }
+
+  .faq { padding: 8px 0 32px; scroll-margin-top: 80px; }
+  details {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 16px 20px; margin-bottom: 10px;
+  }
+  summary { font-weight: 600; cursor: pointer; }
+  details p { margin-top: 10px; color: var(--ink-soft); font-size: 0.95rem; }
+
+  footer {
+    border-top: 1px solid var(--line); padding: 28px 0 40px;
+    text-align: center; color: var(--ink-soft); font-size: 0.85rem;
+  }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#">Lab<span>Calc</span></a>
+    <nav class="nav-links">
+      <a href="#error-prop">Error Propagation</a>
+      <a href="#sigfigs">Sig Figs</a>
+      <a href="#stats">Mean &amp; Std Dev</a>
+      <a href="#toolkit">Lab Report Toolkit</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>Get the uncertainty math right.<br>Every lab report.</h1>
+    <p>Free calculators for error propagation, significant figures, and standard deviation — built by a STEM student who got tired of losing points on error analysis. No ads in your face, no sign-up, no nonsense.</p>
+  </section>
+
+  <section class="tools">
+
+    <!-- ============ ERROR PROPAGATION ============ -->
+    <div class="card" id="error-prop">
+      <h2>Error Propagation Calculator</h2>
+      <p class="sub">Enter two measurements with their uncertainties. Uncertainties are combined in quadrature (independent random errors), following the standard rules from Taylor's <em>An Introduction to Error Analysis</em>.</p>
+
+      <div class="row">
+        <div class="field">
+          <label for="ep-op">Operation</label>
+          <select id="ep-op">
+            <option value="add">Q = a + b</option>
+            <option value="sub">Q = a − b</option>
+            <option value="mul">Q = a × b</option>
+            <option value="div">Q = a ÷ b</option>
+            <option value="pow">Q = aⁿ (n exact)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="ep-a">a</label>
+          <input type="number" id="ep-a" step="any" placeholder="e.g. 12.4">
+        </div>
+        <div class="field">
+          <label for="ep-da">δa (uncertainty in a)</label>
+          <input type="number" id="ep-da" step="any" min="0" placeholder="e.g. 0.2">
+        </div>
+      </div>
+
+      <div class="row" id="ep-b-row">
+        <div class="field">
+          <label for="ep-b">b</label>
+          <input type="number" id="ep-b" step="any" placeholder="e.g. 3.1">
+        </div>
+        <div class="field">
+          <label for="ep-db">δb (uncertainty in b)</label>
+          <input type="number" id="ep-db" step="any" min="0" placeholder="e.g. 0.1">
+        </div>
+      </div>
+
+      <div class="row" id="ep-n-row" style="display:none">
+        <div class="field">
+          <label for="ep-n">n (exponent, treated as exact)</label>
+          <input type="number" id="ep-n" step="any" placeholder="e.g. 2">
+        </div>
+      </div>
+
+      <button class="calc" id="ep-go">Propagate uncertainty</button>
+      <div class="result" id="ep-result"></div>
+    </div>
+
+    <!-- ============ SIG FIGS ============ -->
+    <div class="card" id="sigfigs">
+      <h2>Significant Figures Counter &amp; Rounder</h2>
+      <p class="sub">Type a number to count its sig figs instantly, or round any value to a chosen number of significant figures. Scientific notation (e.g. <code>1.20e3</code>) is supported.</p>
+
+      <div class="row">
+        <div class="field">
+          <label for="sf-count-in">Count sig figs in:</label>
+          <input type="text" id="sf-count-in" placeholder="e.g. 0.00450 or 1.20e3" autocomplete="off">
+        </div>
+      </div>
+      <div class="result" id="sf-count-result"></div>
+
+      <div class="row" style="margin-top:22px">
+        <div class="field">
+          <label for="sf-round-val">Round this value:</label>
+          <input type="number" id="sf-round-val" step="any" placeholder="e.g. 3.14159">
+        </div>
+        <div class="field">
+          <label for="sf-round-n">To this many sig figs:</label>
+          <input type="number" id="sf-round-n" min="1" max="15" step="1" placeholder="e.g. 3">
+        </div>
+      </div>
+      <button class="calc" id="sf-go">Round it</button>
+      <div class="result" id="sf-round-result"></div>
+    </div>
+
+    <!-- ============ STATS ============ -->
+    <div class="card" id="stats">
+      <h2>Mean, Standard Deviation &amp; Standard Error</h2>
+      <p class="sub">Paste your raw trial data (separated by spaces, commas, or new lines). Get the sample mean, sample standard deviation (n − 1), and standard error of the mean — formatted the way your lab report wants it.</p>
+
+      <div class="row">
+        <div class="field" style="grid-column: 1 / -1">
+          <label for="st-data">Your measurements</label>
+          <textarea id="st-data" placeholder="9.79  9.83  9.81&#10;9.78, 9.85, 9.80"></textarea>
+        </div>
+      </div>
+      <button class="calc" id="st-go">Crunch the numbers</button>
+      <div class="result" id="st-result"></div>
+    </div>
+
+  </section>
+
+  <!-- ============ FORMULAS ============ -->
+  <section class="formulas">
+    <h2>The formulas behind the calculators</h2>
+    <div class="formula-grid">
+      <div class="formula">
+        <h3>Addition &amp; subtraction</h3>
+        <code>δQ = √( δa² + δb² )</code>
+        <p>Absolute uncertainties combine in quadrature. Works for Q = a + b and Q = a − b alike — uncertainty never shrinks when you subtract.</p>
+      </div>
+      <div class="formula">
+        <h3>Multiplication &amp; division</h3>
+        <code>δQ/|Q| = √( (δa/a)² + (δb/b)² )</code>
+        <p>Relative (fractional) uncertainties combine in quadrature for products and quotients.</p>
+      </div>
+      <div class="formula">
+        <h3>Powers</h3>
+        <code>δQ/|Q| = |n| · δa/|a|</code>
+        <p>For Q = aⁿ with an exact exponent, the relative uncertainty scales by |n|. Squaring a value doubles its relative uncertainty.</p>
+      </div>
+      <div class="formula">
+        <h3>Standard error of the mean</h3>
+        <code>SEM = s / √n</code>
+        <p>s is the sample standard deviation. The more trials you run, the tighter the uncertainty on your mean — that's why repeating measurements matters.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ GUMROAD PRODUCT ============ -->
+  <section class="toolkit" id="toolkit">
+    <h2>The calculators handle the math. This handles everything else.</h2>
+    <p>The <strong>Lab Report Toolkit</strong> is the template pack I use for every physics and chemistry lab — so I never start a report from a blank page at 11pm again.</p>
+    <ul>
+      <li>Pre-formatted lab report template (Google Docs + Word) — Abstract through Conclusion, with prompts in every section</li>
+      <li>One-page error analysis cheat sheet — every propagation rule with a worked example</li>
+      <li>Data table &amp; graph formatting checklist that matches what graders actually look for</li>
+      <li>10-point pre-submission rubric — catch the easy points before your TA does</li>
+    </ul>
+    <a class="gumroad-button" href="https://bennettix.gumroad.com/l/lab-report-toolkit">Get the Lab Report Toolkit — $7</a>
+    <p class="tiny">Instant download · Pay once, use all degree long · The calculators above stay free forever.</p>
+  </section>
+
+  <!-- ============ FAQ ============ -->
+  <section class="faq" id="faq">
+    <h2>FAQ</h2>
+    <details>
+      <summary>Why add uncertainties in quadrature instead of just adding them?</summary>
+      <p>If the errors in a and b are independent and random, it's unlikely both are at their maximum at the same time — they partially cancel. Adding in quadrature (square, sum, square-root) accounts for that cancellation and gives the statistically expected uncertainty. Simply adding δa + δb overestimates it.</p>
+    </details>
+    <details>
+      <summary>Are trailing zeros significant?</summary>
+      <p>After a decimal point, yes: 1.200 has four sig figs. In a whole number with no decimal point, trailing zeros are ambiguous and conventionally treated as <em>not</em> significant: 1200 has two. To be unambiguous, write 1.200 × 10³. This calculator follows that convention.</p>
+    </details>
+    <details>
+      <summary>Should I report standard deviation or standard error?</summary>
+      <p>Both have a job. The standard deviation (s) describes the spread of your individual trials. The standard error (SEM = s/√n) is the uncertainty on your <em>mean</em>. When you quote a final result, write it as mean ± SEM.</p>
+    </details>
+    <details>
+      <summary>How many sig figs should my uncertainty have?</summary>
+      <p>Round the uncertainty to one significant figure (two if its leading digit is 1), then round your value to the same decimal place. So 9.81473 ± 0.02835 becomes 9.81 ± 0.03. The error propagation calculator above does this formatting for you.</p>
+    </details>
+    <details>
+      <summary>Can I cite these methods in my lab report?</summary>
+      <p>The formulas are the standard ones — cite J. R. Taylor, <em>An Introduction to Error Analysis</em>, 2nd ed. (University Science Books, 1997), which is where every intro lab manual gets them.</p>
+    </details>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>LabCalc — free study tools for STEM students. Formulas follow Taylor, <em>An Introduction to Error Analysis</em>, 2nd ed.</p>
+    <p>Found a bug or want another calculator? Email <a href="mailto:hello@labcalc.example">hello@labcalc.example</a></p>
+  </div>
+</footer>
+
+<!-- Gumroad overlay script: lets the buy button open as a popup instead of leaving the page -->
+<script src="https://gumroad.com/js/gumroad.js" defer></script>
+
+<script>
+"use strict";
+
+/* ---------- shared formatting ---------- */
+
+// Round uncertainty to 1 sig fig (2 if leading digit is 1), then round
+// the value to the same decimal place. Standard lab-report convention.
+function formatMeasurement(q, dq) {
+  if (!isFinite(q) || !isFinite(dq)) return null;
+  if (dq <= 0) return { value: String(Number(q.toPrecision(6))), unc: "0", sig: 0 };
+  const lead = Number(dq.toPrecision(1)).toExponential(0)[0];
+  const sig = lead === "1" ? 2 : 1;
+  const dqR = Number(dq.toPrecision(sig));
+  const expR = Math.floor(Math.log10(dqR));
+  const place = sig - 1 - expR; // decimal places to keep; negative → round left of the point
+  if (place >= 0) {
+    const decimals = Math.min(12, place);
+    return { value: q.toFixed(decimals), unc: dqR.toFixed(decimals), sig };
+  }
+  const factor = Math.pow(10, -place);
+  return { value: String(Math.round(q / factor) * factor), unc: String(dqR), sig };
+}
+
+function showResult(el, html, isError) {
+  el.innerHTML = html;
+  el.classList.add("show");
+  el.classList.toggle("error", !!isError);
+}
+
+/* ---------- error propagation ---------- */
+
+const epOp = document.getElementById("ep-op");
+const epBRow = document.getElementById("ep-b-row");
+const epNRow = document.getElementById("ep-n-row");
+const epResult = document.getElementById("ep-result");
+
+epOp.addEventListener("change", () => {
+  const isPow = epOp.value === "pow";
+  epBRow.style.display = isPow ? "none" : "";
+  epNRow.style.display = isPow ? "" : "none";
+});
+
+document.getElementById("ep-go").addEventListener("click", () => {
+  const op = epOp.value;
+  const a = parseFloat(document.getElementById("ep-a").value);
+  const da = parseFloat(document.getElementById("ep-da").value);
+
+  if (!isFinite(a) || !isFinite(da) || da < 0) {
+    return showResult(epResult, "Enter a value for <strong>a</strong> and a non-negative uncertainty <strong>δa</strong>.", true);
+  }
+
+  let q, dq;
+
+  if (op === "pow") {
+    const n = parseFloat(document.getElementById("ep-n").value);
+    if (!isFinite(n)) return showResult(epResult, "Enter an exponent <strong>n</strong>.", true);
+    q = Math.pow(a, n);
+    if (!isFinite(q)) return showResult(epResult, "That power isn't a real number (e.g. a negative base with a fractional exponent).", true);
+    dq = Math.abs(n * Math.pow(a, n - 1)) * da;
+  } else {
+    const b = parseFloat(document.getElementById("ep-b").value);
+    const db = parseFloat(document.getElementById("ep-db").value);
+    if (!isFinite(b) || !isFinite(db) || db < 0) {
+      return showResult(epResult, "Enter a value for <strong>b</strong> and a non-negative uncertainty <strong>δb</strong>.", true);
+    }
+    switch (op) {
+      case "add": q = a + b; dq = Math.hypot(da, db); break;
+      case "sub": q = a - b; dq = Math.hypot(da, db); break;
+      case "mul": q = a * b; dq = Math.hypot(b * da, a * db); break;
+      case "div":
+        if (b === 0) return showResult(epResult, "Can't divide by zero — <strong>b</strong> must be nonzero.", true);
+        q = a / b;
+        dq = Math.hypot(da / b, (a * db) / (b * b));
+        break;
+    }
+  }
+
+  if (!isFinite(dq)) return showResult(epResult, "The uncertainty came out undefined — check your inputs.", true);
+
+  const f = formatMeasurement(q, dq);
+  const rel = q !== 0 ? ((dq / Math.abs(q)) * 100).toPrecision(2) + "%" : "—";
+  showResult(epResult,
+    `<div class="big">Q = ${f.value} ± ${f.unc}</div>
+     <div class="note">Relative uncertainty: ${rel} &nbsp;·&nbsp; unrounded: Q = ${Number(q.toPrecision(8))}, δQ = ${Number(dq.toPrecision(8))}</div>
+     <div class="note">Uncertainty rounded to ${f.sig === 2 ? "two sig figs (leading digit is 1)" : "one sig fig"}; value rounded to match.</div>`);
+});
+
+/* ---------- significant figures ---------- */
+
+function countSigFigs(raw) {
+  let s = String(raw).trim().replace(/,/g, "").replace(/^[+-]/, "");
+  if (/e/i.test(s)) {
+    const parts = s.split(/e/i);
+    if (parts.length !== 2 || !/^[+-]?\d+$/.test(parts[1])) return null;
+    s = parts[0].replace(/^[+-]/, "");
+  }
+  if (!/^(\d+\.?\d*|\.\d+)$/.test(s)) return null;
+  if (s.includes(".")) {
+    const digits = s.replace(".", "").replace(/^0+/, "");
+    return digits.length || 1;
+  }
+  const noLead = s.replace(/^0+/, "");
+  if (!noLead) return 1; // "0"
+  return noLead.replace(/0+$/, "").length || 1;
+}
+
+const sfCountIn = document.getElementById("sf-count-in");
+const sfCountResult = document.getElementById("sf-count-result");
+
+sfCountIn.addEventListener("input", () => {
+  const v = sfCountIn.value.trim();
+  if (!v) { sfCountResult.classList.remove("show"); return; }
+  const n = countSigFigs(v);
+  if (n === null) {
+    return showResult(sfCountResult, "That doesn't parse as a number. Try something like <code>0.00450</code> or <code>1.20e3</code>.", true);
+  }
+  const ambiguous = !v.includes(".") && !/e/i.test(v) && /0$/.test(v.replace(/^[+-]/, "")) && Number(v) !== 0;
+  showResult(sfCountResult,
+    `<div class="big">${n} significant figure${n === 1 ? "" : "s"}</div>` +
+    (ambiguous ? `<div class="note">Heads up: trailing zeros without a decimal point are ambiguous. This counter treats them as not significant — write ${Number(v).toExponential()} style notation to be explicit.</div>` : ""));
+});
+
+document.getElementById("sf-go").addEventListener("click", () => {
+  const val = parseFloat(document.getElementById("sf-round-val").value);
+  const n = parseInt(document.getElementById("sf-round-n").value, 10);
+  const out = document.getElementById("sf-round-result");
+  if (!isFinite(val)) return showResult(out, "Enter a value to round.", true);
+  if (!Number.isInteger(n) || n < 1 || n > 15) return showResult(out, "Sig figs must be a whole number from 1 to 15.", true);
+  const rounded = val.toPrecision(n);
+  showResult(out,
+    `<div class="big">${rounded}</div>
+     <div class="note">= ${Number(rounded)} &nbsp;·&nbsp; ${val} rounded to ${n} sig fig${n === 1 ? "" : "s"}</div>`);
+});
+
+/* ---------- mean / std dev / SEM ---------- */
+
+document.getElementById("st-go").addEventListener("click", () => {
+  const out = document.getElementById("st-result");
+  const tokens = document.getElementById("st-data").value.split(/[\s,;]+/).filter(Boolean);
+  const nums = tokens.map(Number);
+  if (nums.length === 0) return showResult(out, "Paste some numbers first.", true);
+  if (nums.some(x => !isFinite(x))) return showResult(out, "Some entries aren't numbers — check for typos or stray units.", true);
+  if (nums.length < 2) return showResult(out, "Need at least 2 data points to compute a standard deviation.", true);
+
+  const n = nums.length;
+  const mean = nums.reduce((s, x) => s + x, 0) / n;
+  const ss = nums.reduce((s, x) => s + (x - mean) * (x - mean), 0);
+  const sd = Math.sqrt(ss / (n - 1));
+  const sem = sd / Math.sqrt(n);
+  const f = formatMeasurement(mean, sem);
+
+  showResult(out,
+    `<div class="big">mean ± SEM = ${f.value} ± ${f.unc}</div>
+     <div class="note">n = ${n} &nbsp;·&nbsp; mean = ${Number(mean.toPrecision(8))} &nbsp;·&nbsp; sample std dev (n−1) = ${Number(sd.toPrecision(4))} &nbsp;·&nbsp; SEM = ${Number(sem.toPrecision(4))}</div>
+     <div class="note">Quote the line above as your final result; report the std dev when describing the spread of trials.</div>`);
+});
+</script>
+
+</body>
+</html>
