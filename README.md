@@ -2,7 +2,7 @@
 
 Free calculators for STEM lab reports: error propagation, significant figures, and mean / standard deviation / standard error. Single static `index.html` — no build step, no dependencies.
 
-**Monetization:** Gumroad product (`product/lab-report-toolkit.md` is the product content — export to PDF/Docs, upload to Gumroad, then replace the `href` on the `.gumroad-button` in `index.html` with your product link).
+**Monetization:** Payhip digital product (`product/lab-report-toolkit.md` is the product content — export to PDF, upload to Payhip, and point the `.buy-button` href in `index.html` at the product link).
 
 ## Deploy (GitHub Pages)
 
