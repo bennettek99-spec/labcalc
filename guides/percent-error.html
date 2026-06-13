@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Calculate Percent Error (Formula &amp; Examples) | LabCalc</title>
+<meta name="description" content="Percent error explained: the formula, a step-by-step worked example, how it differs from percent difference and percent uncertainty, and what counts as a good percent error — with a free calculator.">
+<link rel="canonical" href="https://bennettek99-spec.github.io/labcalc/guides/percent-error.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f766e">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LabCalc">
+<meta property="og:title" content="How to Calculate Percent Error (Formula & Examples)">
+<meta property="og:description" content="The percent error formula with a worked example, plus how it differs from percent difference and percent uncertainty.">
+<meta property="og:url" content="https://bennettek99-spec.github.io/labcalc/guides/percent-error.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Calculate Percent Error">
+<meta name="twitter:description" content="The formula, a worked example, and a free percent error calculator.">
+<link rel="stylesheet" href="guide.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "LabCalc", "item": "https://bennettek99-spec.github.io/labcalc/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://bennettek99-spec.github.io/labcalc/#guides" },
+        { "@type": "ListItem", "position": 3, "name": "Percent Error" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How to Calculate Percent Error (Formula & Examples)",
+      "description": "The percent error formula, a worked example, and how percent error differs from percent difference and percent uncertainty.",
+      "about": "Percent error in experimental measurement",
+      "inLanguage": "en",
+      "mainEntityOfPage": "https://bennettek99-spec.github.io/labcalc/guides/percent-error.html",
+      "publisher": { "@type": "Organization", "name": "LabCalc" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the percent error formula?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Percent error = |measured value - accepted value| / |accepted value| x 100%. You divide the absolute difference between your result and the accepted value by the accepted value, then multiply by 100." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is a good percent error?",
+          "acceptedAnswer": { "@type": "Answer", "text": "It depends on the experiment, but in introductory physics and chemistry labs a percent error under about 5 percent is usually considered good, and under 10 percent is acceptable. What matters most is whether the difference is explained by your measurement uncertainty." }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the difference between percent error and percent difference?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Use percent error when you are comparing a measurement to a known accepted value. Use percent difference when you are comparing two measured values and neither is the accepted truth; it divides the difference by the average of the two values." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="../index.html">Lab<span>Calc</span></a>
+    <nav class="nav-links">
+      <a href="../index.html#percent-error">Calculators</a>
+      <a href="../index.html#guides">Guides</a>
+      <a href="../index.html#toolkit">Toolkit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="../index.html">LabCalc</a> › <a href="../index.html#guides">Guides</a> › Percent Error</div>
+
+  <article>
+    <h1>How to Calculate Percent Error</h1>
+    <p class="lede">Percent error tells you how close your measured result came to the accepted ("true") value, as a percentage. It's the standard way intro labs measure <em>accuracy</em> — and it's a one-line calculation once you know the formula. Here's how it works, with a worked example and the distinctions students most often get wrong.</p>
+
+    <h2>The percent error formula</h2>
+    <span class="eq"><span class="label">Percent error</span>percent error = |measured − accepted| / |accepted| × 100%</span>
+    <p>In words: take the difference between your measured value and the accepted value, drop the sign (absolute value), divide by the accepted value, and multiply by 100. The accepted value goes in the denominator because it's the reference you're judging your measurement against.</p>
+
+    <h2>Step by step</h2>
+    <ol>
+      <li><strong>Subtract</strong> the accepted value from your measured value.</li>
+      <li><strong>Take the absolute value</strong> of that difference (percent error is reported as a positive number).</li>
+      <li><strong>Divide</strong> by the accepted value.</li>
+      <li><strong>Multiply by 100</strong> and add a % sign.</li>
+    </ol>
+    <div class="example"><b>Example:</b> you measure gravitational acceleration as 9.79 m/s²; the accepted value is 9.81 m/s².<br>
+      |9.79 − 9.81| = 0.02 &nbsp;→&nbsp; 0.02 / 9.81 = 0.00204 &nbsp;→&nbsp; × 100 = <b>0.20% error</b>.</div>
+
+    <h2>Should you keep the sign?</h2>
+    <p>Standard percent error uses the absolute value, so it's always positive. But your <strong>discussion section</strong> often benefits from noting the <em>direction</em>: a signed result of −0.20% tells the reader your measurement came out <em>lower</em> than accepted, which is a clue about systematic error (a consistently slow timer, a miscalibrated scale). Report the positive percent error as your headline number, and mention the direction when you analyze why.</p>
+
+    <h2>Percent error vs. percent difference</h2>
+    <p>These get swapped constantly. The rule is about whether a "true" value exists:</p>
+    <ul>
+      <li><strong>Percent error</strong> — you're comparing a measurement to a <em>known accepted value</em> (a textbook constant, a labeled concentration).</li>
+      <li><strong>Percent difference</strong> — you're comparing <em>two measured values</em> and neither is the official truth (trial 1 vs. trial 2, your value vs. a lab partner's). Divide by the <em>average</em> of the two:</li>
+    </ul>
+    <span class="eq"><span class="label">Percent difference</span>percent difference = |a − b| / ((a + b) / 2) × 100%</span>
+
+    <h2>Percent error vs. percent uncertainty</h2>
+    <p>Another pair that's easy to confuse — and the distinction is the heart of a good lab report:</p>
+    <ul>
+      <li><strong>Percent error</strong> measures <em>accuracy</em>: how close you landed to the accepted value.</li>
+      <li><strong>Percent uncertainty</strong> (relative uncertainty) measures <em>precision</em>: how tightly your own measurement is pinned down, regardless of the accepted value. It comes from <a href="error-propagation.html">error propagation</a>.</li>
+    </ul>
+    <div class="callout tip">
+      <p><strong>The insight graders reward:</strong> compare the two. If your percent error is smaller than your percent uncertainty, your result is consistent with the accepted value — any difference is explained by measurement uncertainty, not a mistake. If percent error is much larger than your uncertainty, that points to a systematic error worth discussing.</p>
+    </div>
+
+    <h2>What counts as a "good" percent error?</h2>
+    <p>It depends on the experiment and the equipment, but as a rough guide for intro labs: under ~5% is good, under ~10% is acceptable, and anything larger deserves a real explanation in your discussion. Don't fixate on the number alone, though — a 3% error with 0.5% uncertainty is actually a <em>worse</em> result (an unexplained discrepancy) than a 3% error with 4% uncertainty (fully consistent). Accuracy is only meaningful next to precision.</p>
+
+    <h2>Common mistakes</h2>
+    <ul>
+      <li><strong>Dividing by the measured value instead of the accepted value.</strong> The accepted value is the reference and belongs in the denominator.</li>
+      <li><strong>Forgetting the absolute value</strong> and reporting a negative percent error as your headline figure.</li>
+      <li><strong>Using percent error when there's no accepted value</strong> — that's a percent difference.</li>
+      <li><strong>Reporting it to too many digits.</strong> Two significant figures is almost always enough (0.20%, not 0.2038%).</li>
+    </ul>
+
+    <div class="cta">
+      <h3>Calculate percent error instantly</h3>
+      <p>Enter your measured and accepted values — the free calculator returns the percent error and the direction of the difference.</p>
+      <a class="btn" href="../index.html#percent-error">Open the calculator</a>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>What is the percent error formula?</summary>
+      <p>Percent error = |measured − accepted| ÷ |accepted| × 100%. Divide the absolute difference between your result and the accepted value by the accepted value, then multiply by 100.</p>
+    </details>
+    <details>
+      <summary>What is a good percent error?</summary>
+      <p>In intro labs, under about 5% is good and under 10% is acceptable — but what matters most is whether the difference is covered by your measurement uncertainty.</p>
+    </details>
+    <details>
+      <summary>Can percent error be over 100%?</summary>
+      <p>Yes. If your measured value is more than double the accepted value, percent error exceeds 100%. It usually signals a unit mistake or a calculation error worth rechecking.</p>
+    </details>
+
+    <div class="related">
+      <h3>Related guides</h3>
+      <p><a href="error-propagation.html">How to propagate uncertainty</a> &nbsp;·&nbsp; <a href="significant-figures.html">Significant figures rules</a> &nbsp;·&nbsp; <a href="standard-deviation-vs-standard-error.html">Standard deviation vs. standard error</a></p>
+    </div>
+
+    <div class="cta">
+      <h3>Stop losing points on lab reports</h3>
+      <p>The Lab Report Toolkit pairs a full report template with the error-analysis cheat sheet and a 10-point pre-submission rubric.</p>
+      <a class="btn alt" href="https://payhip.com/b/xw5Ad" target="_blank" rel="noopener">Get the Lab Report Toolkit — $7</a>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>LabCalc — free study tools for STEM students.</p>
+    <p><a href="../index.html">Back to the calculators</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

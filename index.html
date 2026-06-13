@@ -180,6 +180,7 @@
       <a href="#error-prop">Error Propagation</a>
       <a href="#sigfigs">Sig Figs</a>
       <a href="#stats">Mean &amp; Std Dev</a>
+      <a href="#percent-error">Percent Error</a>
       <a href="#guides">Guides</a>
       <a href="#toolkit">Lab Report Toolkit</a>
     </nav>
@@ -288,6 +289,25 @@
       <div class="result" id="st-result"></div>
     </div>
 
+    <!-- ============ PERCENT ERROR ============ -->
+    <div class="card" id="percent-error">
+      <h2>Percent Error Calculator</h2>
+      <p class="sub">Compare your measured result against the accepted (true) value to see how accurate you were. Percent error = |measured − accepted| ÷ |accepted| × 100%.</p>
+
+      <div class="row">
+        <div class="field">
+          <label for="pe-measured">Measured value (your result)</label>
+          <input type="number" id="pe-measured" step="any" placeholder="e.g. 9.79">
+        </div>
+        <div class="field">
+          <label for="pe-accepted">Accepted value (true / reference)</label>
+          <input type="number" id="pe-accepted" step="any" placeholder="e.g. 9.81">
+        </div>
+      </div>
+      <button class="calc" id="pe-go">Calculate percent error</button>
+      <div class="result" id="pe-result"></div>
+    </div>
+
   </section>
 
   <!-- ============ FORMULAS ============ -->
@@ -332,6 +352,10 @@
       <a class="formula guide-link" href="guides/standard-deviation-vs-standard-error.html">
         <h3>Std deviation vs. standard error →</h3>
         <p>What each one measures, the formulas, and which to report in a lab report. Worked example included.</p>
+      </a>
+      <a class="formula guide-link" href="guides/percent-error.html">
+        <h3>How to calculate percent error →</h3>
+        <p>The formula and a worked example, plus how percent error differs from percent difference and percent uncertainty.</p>
       </a>
     </div>
   </section>
@@ -539,6 +563,29 @@ document.getElementById("st-go").addEventListener("click", () => {
     `<div class="big">mean ± SEM = ${f.value} ± ${f.unc}</div>
      <div class="note">n = ${n} &nbsp;·&nbsp; mean = ${Number(mean.toPrecision(8))} &nbsp;·&nbsp; sample std dev (n−1) = ${Number(sd.toPrecision(4))} &nbsp;·&nbsp; SEM = ${Number(sem.toPrecision(4))}</div>
      <div class="note">Quote the line above as your final result; report the std dev when describing the spread of trials.</div>`);
+});
+
+/* ---------- percent error ---------- */
+
+document.getElementById("pe-go").addEventListener("click", () => {
+  const out = document.getElementById("pe-result");
+  const measured = parseFloat(document.getElementById("pe-measured").value);
+  const accepted = parseFloat(document.getElementById("pe-accepted").value);
+  if (!isFinite(measured) || !isFinite(accepted)) {
+    return showResult(out, "Enter both a measured value and an accepted value.", true);
+  }
+  if (accepted === 0) {
+    return showResult(out, "Percent error is undefined when the accepted value is zero (division by zero). If neither value is the accepted truth, use percent difference instead.", true);
+  }
+  const signed = ((measured - accepted) / Math.abs(accepted)) * 100;
+  const pe = Number(Math.abs(signed).toPrecision(3));
+  const dir = signed > 0 ? "your measurement is higher than accepted"
+            : signed < 0 ? "your measurement is lower than accepted"
+            : "your measurement matches the accepted value exactly";
+  showResult(out,
+    `<div class="big">Percent error = ${pe}%</div>
+     <div class="note">Signed: ${signed > 0 ? "+" : ""}${Number(signed.toPrecision(3))}% — ${dir}.</div>
+     <div class="note">|${measured} − ${accepted}| ÷ |${accepted}| × 100</div>`);
 });
 </script>
 
