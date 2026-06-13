@@ -5,6 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LabCalc — Free Error Propagation, Sig Fig &amp; Standard Deviation Calculators</title>
 <meta name="description" content="Free calculators for lab reports: propagate uncertainty through any calculation, count and round significant figures, and get mean ± standard error from raw data.">
+<link rel="canonical" href="https://bennettek99-spec.github.io/labcalc/">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f766e">
+<!-- Open Graph / social preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="LabCalc">
+<meta property="og:title" content="LabCalc — Free Error Propagation, Sig Fig &amp; Standard Deviation Calculators">
+<meta property="og:description" content="Free, no-signup calculators for lab reports: error propagation, significant figures, and mean ± standard error.">
+<meta property="og:url" content="https://bennettek99-spec.github.io/labcalc/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="LabCalc — Free Lab Report Calculators">
+<meta name="twitter:description" content="Error propagation, significant figures, and standard error calculators for physics &amp; chemistry students.">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -124,6 +136,9 @@
     font-size: 0.95rem; margin: 8px 0; overflow-x: auto;
   }
   .formula p { font-size: 0.88rem; color: var(--ink-soft); }
+  a.guide-link { text-decoration: none; color: inherit; display: block; transition: border-color 0.15s, transform 0.15s; }
+  a.guide-link:hover { border-color: var(--accent); transform: translateY(-2px); }
+  a.guide-link h3 { color: var(--accent); }
 
   .toolkit {
     background: var(--ink); color: #eef2f6; border-radius: var(--radius);
@@ -165,8 +180,8 @@
       <a href="#error-prop">Error Propagation</a>
       <a href="#sigfigs">Sig Figs</a>
       <a href="#stats">Mean &amp; Std Dev</a>
+      <a href="#guides">Guides</a>
       <a href="#toolkit">Lab Report Toolkit</a>
-      <a href="#faq">FAQ</a>
     </nav>
   </div>
 </header>
@@ -302,7 +317,26 @@
     </div>
   </section>
 
-  <!-- ============ GUMROAD PRODUCT ============ -->
+  <!-- ============ GUIDES ============ -->
+  <section class="formulas" id="guides">
+    <h2>Guides: the concepts, explained</h2>
+    <div class="formula-grid">
+      <a class="formula guide-link" href="guides/error-propagation.html">
+        <h3>How to propagate uncertainty →</h3>
+        <p>Every error-propagation rule — add, subtract, multiply, divide, powers — with worked examples and how to round the result.</p>
+      </a>
+      <a class="formula guide-link" href="guides/significant-figures.html">
+        <h3>Significant figures, explained →</h3>
+        <p>The five sig-fig rules, how zeros count, and how sig figs work in addition vs. multiplication. With examples.</p>
+      </a>
+      <a class="formula guide-link" href="guides/standard-deviation-vs-standard-error.html">
+        <h3>Std deviation vs. standard error →</h3>
+        <p>What each one measures, the formulas, and which to report in a lab report. Worked example included.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ PRODUCT ============ -->
   <section class="toolkit" id="toolkit">
     <h2>The calculators handle the math. This handles everything else.</h2>
     <p>The <strong>Lab Report Toolkit</strong> is the template pack I use for every physics and chemistry lab — so I never start a report from a blank page at 11pm again.</p>

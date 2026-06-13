@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How to Propagate Uncertainty: Formulas, Rules &amp; Examples | LabCalc</title>
+<meta name="description" content="Error propagation explained: the rules for adding, subtracting, multiplying, dividing, and taking powers of measurements with uncertainties — with worked examples and a free calculator.">
+<link rel="canonical" href="https://bennettek99-spec.github.io/labcalc/guides/error-propagation.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f766e">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LabCalc">
+<meta property="og:title" content="How to Propagate Uncertainty: Formulas, Rules & Examples">
+<meta property="og:description" content="Every error-propagation rule with worked examples — add, subtract, multiply, divide, powers — plus how to round and report your result.">
+<meta property="og:url" content="https://bennettek99-spec.github.io/labcalc/guides/error-propagation.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="How to Propagate Uncertainty (Error Propagation)">
+<meta name="twitter:description" content="The standard error-propagation rules with worked examples and a free calculator.">
+<link rel="stylesheet" href="guide.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "LabCalc", "item": "https://bennettek99-spec.github.io/labcalc/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://bennettek99-spec.github.io/labcalc/#guides" },
+        { "@type": "ListItem", "position": 3, "name": "Error Propagation" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "How to Propagate Uncertainty: Formulas, Rules & Examples",
+      "description": "The standard rules for propagating uncertainty through addition, subtraction, multiplication, division, and powers, with worked examples.",
+      "about": "Error propagation and uncertainty in measurements",
+      "inLanguage": "en",
+      "mainEntityOfPage": "https://bennettek99-spec.github.io/labcalc/guides/error-propagation.html",
+      "publisher": { "@type": "Organization", "name": "LabCalc" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do I add uncertainties or combine them in quadrature?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For independent, random errors you combine them in quadrature (square, sum, square root), because the errors partially cancel. Simply adding them assumes the worst case and overestimates the uncertainty. Adding directly is only appropriate as a conservative upper bound or when errors are fully correlated." }
+        },
+        {
+          "@type": "Question",
+          "name": "Does subtracting two measurements reduce the uncertainty?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. For Q = a - b the uncertainty is the same as for Q = a + b: dQ = sqrt(da^2 + db^2). Worse, subtracting two nearly equal numbers leaves a small result with a large relative uncertainty, a problem called subtractive cancellation." }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I propagate uncertainty through a power like a squared?",
+          "acceptedAnswer": { "@type": "Answer", "text": "For Q = a^n with an exact exponent n, the relative uncertainty scales by the absolute value of n: dQ/|Q| = |n| * da/|a|. Squaring doubles the relative uncertainty; a square root halves it." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="../index.html">Lab<span>Calc</span></a>
+    <nav class="nav-links">
+      <a href="../index.html#error-prop">Calculators</a>
+      <a href="../index.html#guides">Guides</a>
+      <a href="../index.html#toolkit">Toolkit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="../index.html">LabCalc</a> › <a href="../index.html#guides">Guides</a> › Error Propagation</div>
+
+  <article>
+    <h1>How to Propagate Uncertainty (Error Propagation)</h1>
+    <p class="lede">Every measurement carries an uncertainty, and when you combine measurements in a calculation, those uncertainties carry through to your result. Error propagation is the set of rules for finding the uncertainty in a calculated quantity from the uncertainties in the values you measured. Here are the rules every intro physics and chemistry lab uses, with worked examples.</p>
+
+    <h2>Why uncertainties combine "in quadrature"</h2>
+    <p>When the errors in your measurements are <strong>independent and random</strong>, it's unlikely that every measurement is off in the same direction by its maximum amount at the same time. The errors partially cancel. Combining them <em>in quadrature</em> — square each one, add, then take the square root — captures that cancellation and gives the statistically expected uncertainty.</p>
+    <p>Simply adding the uncertainties (δa + δb) assumes the worst case, where every error lines up against you, and overestimates the result. Use direct addition only as a deliberately conservative bound, or when the errors are fully correlated rather than independent.</p>
+
+    <h2>Rule 1 — Addition and subtraction</h2>
+    <p>For <strong>Q = a + b</strong> or <strong>Q = a − b</strong>, the <em>absolute</em> uncertainties combine in quadrature:</p>
+    <span class="eq"><span class="label">Add / Subtract</span>δQ = √( δa² + δb² )</span>
+    <p>Notice the uncertainty is identical whether you add or subtract — subtraction never shrinks it. In fact, subtracting two nearly equal numbers produces a small result with a large <em>relative</em> uncertainty. This "subtractive cancellation" is a classic trap in lab work.</p>
+    <div class="example"><b>Example:</b> (12.4 ± 0.2) + (3.1 ± 0.1). &nbsp; δQ = √(0.2² + 0.1²) = √0.05 = 0.22 → <b>Q = 15.5 ± 0.2</b>.</div>
+
+    <h2>Rule 2 — Multiplication and division</h2>
+    <p>For <strong>Q = a × b</strong> or <strong>Q = a ÷ b</strong>, the <em>relative</em> (fractional) uncertainties combine in quadrature:</p>
+    <span class="eq"><span class="label">Multiply / Divide</span>δQ / |Q| = √( (δa/a)² + (δb/b)² )</span>
+    <div class="example"><b>Example:</b> (12.4 ± 0.2) × (3.1 ± 0.1). &nbsp; relative = √((0.2/12.4)² + (0.1/3.1)²) = √(0.0161² + 0.0323²) = 3.6%. &nbsp; Q = 38.44, so δQ = 0.036 × 38.44 = 1.4 → <b>Q = 38.4 ± 1.4</b>.</div>
+
+    <h2>Rule 3 — Powers</h2>
+    <p>For <strong>Q = aⁿ</strong> with an exact exponent n, the relative uncertainty scales by |n|:</p>
+    <span class="eq"><span class="label">Powers</span>δQ / |Q| = |n| · δa / |a|</span>
+    <p>Squaring a value <strong>doubles</strong> its relative uncertainty; taking a square root <strong>halves</strong> it. This is why a quantity that depends on the square of a measurement (like kinetic energy on velocity) is so sensitive to that measurement's precision.</p>
+    <div class="example"><b>Example:</b> (3.1 ± 0.1)². &nbsp; relative = 2 × (0.1/3.1) = 6.5%. &nbsp; Q = 9.61, δQ = 0.6 → <b>Q = 9.6 ± 0.6</b>.</div>
+
+    <h2>Rule 4 — Multiplying by an exact constant</h2>
+    <p>For <strong>Q = c · a</strong> where c is an exact number (like 2 or π), the uncertainty scales directly and the relative uncertainty is unchanged:</p>
+    <span class="eq"><span class="label">Constant multiple</span>δQ = |c| · δa</span>
+
+    <h2>The general formula behind all of these</h2>
+    <p>Every rule above is a special case of the general error-propagation formula. For any function <strong>Q = f(a, b, …)</strong> of independent variables:</p>
+    <span class="eq"><span class="label">General case</span>δQ = √( (∂f/∂a · δa)² + (∂f/∂b · δb)² + … )</span>
+    <p>You take the partial derivative of your function with respect to each measured variable, multiply by that variable's uncertainty, and add the terms in quadrature. The add, multiply, and power rules are just this formula worked out for the common operations — handy to know when your formula doesn't fit a simple template.</p>
+
+    <h2>How to round and report your result</h2>
+    <p>Once you have δQ, format it the way lab reports expect:</p>
+    <ol>
+      <li>Round the <strong>uncertainty</strong> to one significant figure — or two if its leading digit is 1.</li>
+      <li>Round the <strong>value</strong> to the same decimal place as the uncertainty.</li>
+      <li>Write both with shared units, e.g. <strong>(9.79 ± 0.04) m/s²</strong>.</li>
+    </ol>
+    <p>So a raw result of 9.81473 ± 0.02835 is reported as <strong>9.81 ± 0.03</strong>. For more on rounding, see the <a href="significant-figures.html">significant figures guide</a>.</p>
+
+    <div class="cta">
+      <h3>Check your work instantly</h3>
+      <p>The free Error Propagation Calculator does every rule above and formats the result automatically.</p>
+      <a class="btn" href="../index.html#error-prop">Open the calculator</a>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>Do I add uncertainties or combine them in quadrature?</summary>
+      <p>For independent, random errors, combine them in quadrature — the errors partially cancel, so direct addition overestimates the uncertainty. Add directly only as a conservative upper bound or when the errors are fully correlated.</p>
+    </details>
+    <details>
+      <summary>Does subtracting two measurements reduce the uncertainty?</summary>
+      <p>No. For Q = a − b the uncertainty equals that of Q = a + b. And subtracting two nearly equal numbers gives a small result with a large relative uncertainty (subtractive cancellation), which can wreck precision.</p>
+    </details>
+    <details>
+      <summary>What about systematic errors?</summary>
+      <p>These rules apply to independent <em>random</em> errors. Systematic errors (a miscalibrated instrument, a consistent reading bias) don't cancel and are handled separately — identify and correct them, or report them as a separate contribution.</p>
+    </details>
+    <details>
+      <summary>Where do these formulas come from?</summary>
+      <p>They're the standard rules from J. R. Taylor, <em>An Introduction to Error Analysis</em>, 2nd ed. (University Science Books, 1997) — the reference most intro lab manuals draw on. It's the right citation for your methods section.</p>
+    </details>
+
+    <div class="related">
+      <h3>Related guides</h3>
+      <p><a href="significant-figures.html">Significant figures rules, explained</a> &nbsp;·&nbsp; <a href="standard-deviation-vs-standard-error.html">Standard deviation vs. standard error</a></p>
+    </div>
+
+    <div class="cta">
+      <h3>Stop losing points on lab reports</h3>
+      <p>The Lab Report Toolkit packs every propagation rule, a full report template, and a pre-submission rubric into one download.</p>
+      <a class="btn alt" href="https://payhip.com/b/xw5Ad" target="_blank" rel="noopener">Get the Lab Report Toolkit — $7</a>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>LabCalc — free study tools for STEM students. Methods follow Taylor, <em>An Introduction to Error Analysis</em>, 2nd ed.</p>
+    <p><a href="../index.html">Back to the calculators</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

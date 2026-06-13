@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Standard Deviation vs. Standard Error: What's the Difference? | LabCalc</title>
+<meta name="description" content="Standard deviation vs. standard error explained: what each one measures, the formulas, how they differ, and which to report in a lab report — with a worked example and a free calculator.">
+<link rel="canonical" href="https://bennettek99-spec.github.io/labcalc/guides/standard-deviation-vs-standard-error.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f766e">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LabCalc">
+<meta property="og:title" content="Standard Deviation vs. Standard Error: What's the Difference?">
+<meta property="og:description" content="What each measures, the formulas, and which to report in a lab report — with a worked example.">
+<meta property="og:url" content="https://bennettek99-spec.github.io/labcalc/guides/standard-deviation-vs-standard-error.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Standard Deviation vs. Standard Error">
+<meta name="twitter:description" content="The difference, the formulas, and which to report — with a free calculator.">
+<link rel="stylesheet" href="guide.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "LabCalc", "item": "https://bennettek99-spec.github.io/labcalc/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://bennettek99-spec.github.io/labcalc/#guides" },
+        { "@type": "ListItem", "position": 3, "name": "Standard Deviation vs. Standard Error" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Standard Deviation vs. Standard Error: What's the Difference?",
+      "description": "What standard deviation and standard error of the mean each measure, their formulas, and which one to report in a lab result.",
+      "about": "Standard deviation and standard error of the mean",
+      "inLanguage": "en",
+      "mainEntityOfPage": "https://bennettek99-spec.github.io/labcalc/guides/standard-deviation-vs-standard-error.html",
+      "publisher": { "@type": "Organization", "name": "LabCalc" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is the difference between standard deviation and standard error?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Standard deviation describes the spread of your individual measurements. Standard error of the mean (SEM) describes the uncertainty in the mean of those measurements. SEM equals the standard deviation divided by the square root of the number of measurements, so it is always smaller than the standard deviation." }
+        },
+        {
+          "@type": "Question",
+          "name": "Should I report standard deviation or standard error in a lab report?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Report the standard deviation to describe how spread out your individual trials are, and report the standard error of the mean as the uncertainty on your best estimate. A final result is usually quoted as mean plus or minus SEM." }
+        },
+        {
+          "@type": "Question",
+          "name": "Why does more data reduce the standard error but not the standard deviation?",
+          "acceptedAnswer": { "@type": "Answer", "text": "The standard deviation estimates the spread of the underlying population and settles toward a fixed value as you take more data. The standard error shrinks as 1 over the square root of n because averaging more measurements pins down the mean more precisely." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="../index.html">Lab<span>Calc</span></a>
+    <nav class="nav-links">
+      <a href="../index.html#stats">Calculators</a>
+      <a href="../index.html#guides">Guides</a>
+      <a href="../index.html#toolkit">Toolkit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="../index.html">LabCalc</a> › <a href="../index.html#guides">Guides</a> › Standard Deviation vs. Standard Error</div>
+
+  <article>
+    <h1>Standard Deviation vs. Standard Error of the Mean</h1>
+    <p class="lede">They look similar and students mix them up constantly, but they answer different questions. Standard deviation tells you how spread out your individual measurements are. Standard error tells you how precisely you've pinned down their average. Knowing which is which is the difference between a result that reads correctly and one that overstates your precision.</p>
+
+    <h2>Standard deviation: the spread of your data</h2>
+    <p>The <strong>sample standard deviation (s)</strong> measures how far individual measurements typically fall from their mean. A small s means your trials clustered tightly; a large s means they scattered.</p>
+    <span class="eq"><span class="label">Sample standard deviation</span>s = √( Σ(xᵢ − x̄)² / (n − 1) )</span>
+    <p>The divisor is <strong>n − 1</strong>, not n — this is Bessel's correction, which keeps the sample standard deviation from systematically underestimating the true spread of the population.</p>
+
+    <h2>Standard error: the uncertainty in your mean</h2>
+    <p>The <strong>standard error of the mean (SEM)</strong> measures how much your calculated mean would wobble if you repeated the whole experiment. It's the standard deviation scaled down by the number of measurements:</p>
+    <span class="eq"><span class="label">Standard error of the mean</span>SEM = s / √n</span>
+    <p>Because you divide by √n, the SEM is always smaller than the standard deviation, and it shrinks as you take more data.</p>
+
+    <h2>The key difference, in one line</h2>
+    <p><strong>Standard deviation describes your data; standard error describes your estimate of the mean.</strong> Take ten times as many measurements and the standard deviation barely changes (it's converging on a real property of what you're measuring), but the standard error drops by a factor of √10 ≈ 3.2 — averaging more trials pins down the mean more tightly. That's the statistical reason repeating measurements is worth the effort.</p>
+
+    <table class="tbl">
+      <tr><th></th><th>Standard deviation (s)</th><th>Standard error (SEM)</th></tr>
+      <tr><td>Describes</td><td>Spread of individual data</td><td>Uncertainty in the mean</td></tr>
+      <tr><td>Formula</td><td>√(Σ(xᵢ−x̄)²/(n−1))</td><td>s / √n</td></tr>
+      <tr><td>As n grows</td><td>Settles toward a fixed value</td><td>Shrinks toward zero</td></tr>
+      <tr><td>Report it to show…</td><td>How variable your trials were</td><td>How precise your best estimate is</td></tr>
+    </table>
+
+    <h2>Worked example</h2>
+    <p>Six measurements of g (m/s²): 9.79, 9.83, 9.81, 9.78, 9.85, 9.80.</p>
+    <div class="example">
+      Mean x̄ = 9.8100 &nbsp;·&nbsp; s = 0.0261 &nbsp;·&nbsp; n = 6, so √n = 2.449<br>
+      SEM = 0.0261 / 2.449 = 0.0107<br>
+      Report as: <b>g = 9.810 ± 0.011 m/s²</b> (mean ± SEM, uncertainty to two sig figs since it leads with 1).
+    </div>
+
+    <h2>Which one goes in your lab report?</h2>
+    <p>Both have a place, and a strong report uses them deliberately:</p>
+    <ul>
+      <li>Use the <strong>standard deviation</strong> when you're describing the spread of your trials ("the measurements had a standard deviation of 0.03 m/s²").</li>
+      <li>Use the <strong>standard error</strong> as the uncertainty on your final answer. Quote the result as <strong>mean ± SEM</strong>.</li>
+    </ul>
+    <p>To compare that result against an accepted value, see whether the accepted value falls within about two standard errors of your mean — that's covered in the <a href="error-propagation.html">error propagation guide</a>.</p>
+
+    <div class="cta">
+      <h3>Get mean, s, and SEM from your data</h3>
+      <p>Paste your raw trial values and the free calculator returns all three, formatted as mean ± SEM.</p>
+      <a class="btn" href="../index.html#stats">Open the calculator</a>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>What's the difference between standard deviation and standard error?</summary>
+      <p>Standard deviation describes the spread of your individual measurements; standard error describes the uncertainty in their mean. SEM = s/√n, so the standard error is always the smaller of the two.</p>
+    </details>
+    <details>
+      <summary>Should I report standard deviation or standard error?</summary>
+      <p>Report the standard deviation to describe the spread of your trials, and the standard error as the uncertainty on your best estimate. The final result is usually written mean ± SEM.</p>
+    </details>
+    <details>
+      <summary>Why divide by n − 1 instead of n?</summary>
+      <p>Using n − 1 (Bessel's correction) prevents the sample standard deviation from systematically underestimating the true population spread, because the sample mean is itself estimated from the same data.</p>
+    </details>
+
+    <div class="related">
+      <h3>Related guides</h3>
+      <p><a href="error-propagation.html">How to propagate uncertainty</a> &nbsp;·&nbsp; <a href="significant-figures.html">Significant figures rules, explained</a></p>
+    </div>
+
+    <div class="cta">
+      <h3>Stop losing points on lab reports</h3>
+      <p>The Lab Report Toolkit pairs a full report template with the error-analysis cheat sheet and a pre-submission rubric.</p>
+      <a class="btn alt" href="https://payhip.com/b/xw5Ad" target="_blank" rel="noopener">Get the Lab Report Toolkit — $7</a>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>LabCalc — free study tools for STEM students.</p>
+    <p><a href="../index.html">Back to the calculators</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

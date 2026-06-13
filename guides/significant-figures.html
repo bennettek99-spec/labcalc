@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Significant Figures Rules, Explained (With Examples) | LabCalc</title>
+<meta name="description" content="The significant figures rules made simple: which digits count, how leading and trailing zeros work, and how sig figs behave in addition vs. multiplication — with examples and a free counter.">
+<link rel="canonical" href="https://bennettek99-spec.github.io/labcalc/guides/significant-figures.html">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0f766e">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="LabCalc">
+<meta property="og:title" content="Significant Figures Rules, Explained (With Examples)">
+<meta property="og:description" content="Which digits count, how zeros work, and how sig figs behave in calculations — with examples and a free counter.">
+<meta property="og:url" content="https://bennettek99-spec.github.io/labcalc/guides/significant-figures.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Significant Figures Rules, Explained">
+<meta name="twitter:description" content="The five sig-fig rules with examples, plus a free significant figures counter.">
+<link rel="stylesheet" href="guide.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "LabCalc", "item": "https://bennettek99-spec.github.io/labcalc/" },
+        { "@type": "ListItem", "position": 2, "name": "Guides", "item": "https://bennettek99-spec.github.io/labcalc/#guides" },
+        { "@type": "ListItem", "position": 3, "name": "Significant Figures" }
+      ]
+    },
+    {
+      "@type": "Article",
+      "headline": "Significant Figures Rules, Explained (With Examples)",
+      "description": "How to count significant figures, how leading and trailing zeros work, and how sig figs propagate through addition and multiplication.",
+      "about": "Significant figures in measurement and calculation",
+      "inLanguage": "en",
+      "mainEntityOfPage": "https://bennettek99-spec.github.io/labcalc/guides/significant-figures.html",
+      "publisher": { "@type": "Organization", "name": "LabCalc" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Are trailing zeros significant?",
+          "acceptedAnswer": { "@type": "Answer", "text": "Trailing zeros after a decimal point are significant: 1.200 has four significant figures. Trailing zeros in a whole number with no decimal point are ambiguous and are conventionally treated as not significant, so 1200 has two. Use scientific notation to remove the ambiguity." }
+        },
+        {
+          "@type": "Question",
+          "name": "Are leading zeros significant?",
+          "acceptedAnswer": { "@type": "Answer", "text": "No. Leading zeros only mark the decimal place and are never significant. 0.00450 has three significant figures: 4, 5, and the trailing 0." }
+        },
+        {
+          "@type": "Question",
+          "name": "How many significant figures should a result have?",
+          "acceptedAnswer": { "@type": "Answer", "text": "In multiplication and division, the result keeps as many significant figures as the input with the fewest. In addition and subtraction, the result keeps as many decimal places as the input with the fewest decimal places." }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a class="logo" href="../index.html">Lab<span>Calc</span></a>
+    <nav class="nav-links">
+      <a href="../index.html#sigfigs">Calculators</a>
+      <a href="../index.html#guides">Guides</a>
+      <a href="../index.html#toolkit">Toolkit</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="breadcrumb"><a href="../index.html">LabCalc</a> › <a href="../index.html#guides">Guides</a> › Significant Figures</div>
+
+  <article>
+    <h1>Significant Figures Rules, Explained</h1>
+    <p class="lede">Significant figures are the digits in a measurement that carry real information about its precision. Get them right and your results communicate exactly how well you measured; get them wrong and you either throw away precision or claim more than your instrument can deliver. Here are the rules, with examples.</p>
+
+    <h2>What counts as a significant figure</h2>
+    <p>Read a number left to right and apply these in order:</p>
+    <ul>
+      <li><strong>All non-zero digits are significant.</strong> 47.3 has three.</li>
+      <li><strong>Zeros between non-zero digits ("captive" zeros) are significant.</strong> 4007 has four.</li>
+      <li><strong>Leading zeros are never significant</strong> — they only set the decimal place. 0.00450 has three (4, 5, 0).</li>
+      <li><strong>Trailing zeros after a decimal point are significant.</strong> 1.200 has four; the zeros say "I measured to the thousandths place."</li>
+      <li><strong>Trailing zeros in a whole number with no decimal point are ambiguous.</strong> 1200 could be two, three, or four. By convention they're treated as <em>not</em> significant (so: two), but the only unambiguous fix is scientific notation.</li>
+    </ul>
+
+    <table class="tbl">
+      <tr><th>Number</th><th>Sig figs</th><th>Why</th></tr>
+      <tr><td>47.3</td><td>3</td><td>All non-zero</td></tr>
+      <tr><td>4007</td><td>4</td><td>Captive zeros count</td></tr>
+      <tr><td>0.00450</td><td>3</td><td>Leading zeros don't; trailing zero does</td></tr>
+      <tr><td>1.200</td><td>4</td><td>Trailing zeros after a decimal count</td></tr>
+      <tr><td>1200</td><td>2</td><td>Ambiguous; treated as not significant</td></tr>
+      <tr><td>1.200 × 10³</td><td>4</td><td>Scientific notation removes ambiguity</td></tr>
+    </table>
+
+    <h2>Use scientific notation to be unambiguous</h2>
+    <p>Scientific notation makes the number of significant figures explicit, because every digit you write in the mantissa is significant. If you measured 1200 to the nearest hundred, write 1.2 × 10³ (two sig figs). If you measured it to the nearest unit, write 1.200 × 10³ (four). The reader never has to guess.</p>
+
+    <h2>Significant figures in calculations</h2>
+    <p>The rule depends on the operation — and it's a different rule for the two families:</p>
+
+    <h3>Multiplication and division</h3>
+    <p>The result keeps as many significant figures as the input with the <strong>fewest</strong>.</p>
+    <div class="example"><b>Example:</b> 4.56 × 1.4 = 6.384 → round to <b>6.4</b>, because 1.4 has only two sig figs.</div>
+
+    <h3>Addition and subtraction</h3>
+    <p>The result keeps as many <strong>decimal places</strong> as the input with the fewest decimal places — count places after the point, not total digits.</p>
+    <div class="example"><b>Example:</b> 12.11 + 0.3 = 12.41 → round to <b>12.4</b>, because 0.3 is known only to the tenths place.</div>
+
+    <div class="callout tip">
+      <p><strong>Carry extra digits until the end.</strong> Round only your final answer, not the intermediate steps — rounding too early introduces "rounding error" that can shift your last reported digit.</p>
+    </div>
+
+    <h2>Sig figs vs. uncertainty</h2>
+    <p>Significant figures are a quick shorthand for precision, but a stated uncertainty (like ± 0.03) is more precise and is what lab reports usually want. When you have an uncertainty, round <em>it</em> to one significant figure (two if its leading digit is 1), then round the value to match. See the <a href="error-propagation.html">error propagation guide</a> for how to get that uncertainty in the first place.</p>
+
+    <div class="cta">
+      <h3>Count or round sig figs instantly</h3>
+      <p>Type any number — including scientific notation — into the free counter, or round a value to any number of sig figs.</p>
+      <a class="btn" href="../index.html#sigfigs">Open the calculator</a>
+    </div>
+
+    <h2>Frequently asked questions</h2>
+    <details>
+      <summary>Are trailing zeros significant?</summary>
+      <p>After a decimal point, yes — 1.200 has four. In a whole number with no decimal point they're ambiguous and conventionally treated as not significant, so 1200 has two. Write 1.200 × 10³ to be explicit.</p>
+    </details>
+    <details>
+      <summary>Are leading zeros significant?</summary>
+      <p>Never. They only mark the decimal place. 0.00450 has three significant figures.</p>
+    </details>
+    <details>
+      <summary>Do exact numbers have significant figures?</summary>
+      <p>Exact values — counted quantities (5 trials) and defined constants (exactly 100 cm per m) — have infinite significant figures and never limit the precision of a calculation.</p>
+    </details>
+
+    <div class="related">
+      <h3>Related guides</h3>
+      <p><a href="error-propagation.html">How to propagate uncertainty</a> &nbsp;·&nbsp; <a href="standard-deviation-vs-standard-error.html">Standard deviation vs. standard error</a></p>
+    </div>
+
+    <div class="cta">
+      <h3>Stop losing points on lab reports</h3>
+      <p>The Lab Report Toolkit includes a full report template, the error-analysis cheat sheet, and a 10-point pre-submission rubric.</p>
+      <a class="btn alt" href="https://payhip.com/b/xw5Ad" target="_blank" rel="noopener">Get the Lab Report Toolkit — $7</a>
+    </div>
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>LabCalc — free study tools for STEM students.</p>
+    <p><a href="../index.html">Back to the calculators</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

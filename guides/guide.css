@@ -1,0 +1,105 @@
+:root {
+  --ink: #1a2332;
+  --ink-soft: #4b5768;
+  --bg: #f5f8fa;
+  --card: #ffffff;
+  --line: #dde5ec;
+  --accent: #0f766e;
+  --accent-dark: #0b5a54;
+  --accent-soft: #e6f4f2;
+  --radius: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.7;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+
+header {
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  position: sticky; top: 0; z-index: 10;
+}
+.nav {
+  max-width: 980px; margin: 0 auto; padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.logo { font-weight: 800; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+.logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+.nav-links a { color: var(--ink-soft); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+.nav-links a:hover { color: var(--accent); }
+
+.breadcrumb { font-size: 0.85rem; color: var(--ink-soft); padding: 18px 0 0; }
+.breadcrumb a { color: var(--accent); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+article { padding: 8px 0 24px; }
+article h1 { font-size: clamp(1.6rem, 4vw, 2.3rem); line-height: 1.2; margin: 12px 0 8px; }
+.lede { font-size: 1.12rem; color: var(--ink-soft); margin-bottom: 8px; }
+article h2 { font-size: 1.4rem; margin: 32px 0 10px; }
+article h3 { font-size: 1.1rem; margin: 22px 0 6px; }
+article p { margin-bottom: 14px; }
+article ul, article ol { margin: 0 0 16px 24px; }
+article li { margin-bottom: 7px; }
+article strong { color: var(--ink); }
+
+.eq {
+  display: block; background: var(--card); border: 1px solid var(--line);
+  border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0;
+  padding: 12px 16px; margin: 14px 0; font-size: 1.05rem;
+  font-family: "Cambria Math", Georgia, "Times New Roman", serif; overflow-x: auto;
+}
+.eq .label { display: block; font-family: inherit; font-size: 0.78rem; font-weight: 700;
+  color: var(--accent-dark); letter-spacing: 0.3px; margin-bottom: 4px; text-transform: uppercase; }
+
+.example {
+  background: var(--accent-soft); border-radius: 8px; padding: 14px 18px; margin: 14px 0;
+  font-size: 0.98rem;
+}
+.example b { color: var(--accent-dark); }
+
+.callout {
+  border: 1px solid var(--line); background: var(--card); border-radius: var(--radius);
+  padding: 18px 20px; margin: 22px 0;
+}
+.callout.tip { border-left: 4px solid var(--accent); }
+
+.cta {
+  background: var(--ink); color: #eef2f6; border-radius: var(--radius);
+  padding: 26px 26px; margin: 30px 0; text-align: center;
+}
+.cta h3 { color: #fff; margin-top: 0; }
+.cta p { color: #c4cdd8; }
+.cta .btn {
+  display: inline-block; margin-top: 8px; background: var(--accent); color: #fff !important;
+  font-weight: 700; padding: 12px 24px; border-radius: 8px; text-decoration: none;
+}
+.cta .btn:hover { background: var(--accent-dark); }
+.cta .btn.alt { background: #14b8a6; color: #06251f !important; }
+.cta .btn.alt:hover { background: #2dd4bf; }
+
+table.tbl { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 0.95rem; }
+table.tbl th, table.tbl td { border: 1px solid var(--line); padding: 9px 12px; text-align: left; }
+table.tbl th { background: var(--ink); color: #fff; }
+
+details {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: 10px; padding: 14px 18px; margin-bottom: 10px;
+}
+summary { font-weight: 600; cursor: pointer; }
+details p { margin: 10px 0 0; color: var(--ink-soft); }
+
+.related { margin: 28px 0; padding: 18px 20px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.related h3 { margin: 0 0 8px; font-size: 1rem; }
+.related a { color: var(--accent); }
+
+footer {
+  border-top: 1px solid var(--line); padding: 26px 0 40px;
+  text-align: center; color: var(--ink-soft); font-size: 0.85rem;
+}
+footer a { color: var(--accent); }

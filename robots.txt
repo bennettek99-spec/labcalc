@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bennettek99-spec.github.io/labcalc/sitemap.xml
